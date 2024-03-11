@@ -1,0 +1,21 @@
+<div class="control-study">
+  <div class="handouts">
+    <!-- Handouts Interface Here -->
+    <p>Handout Material...</p>
+    <!-- 实现资料展示功能 -->
+  </div>
+  <div class="questions-review">
+    <!-- List of Incorrect Questions Here -->
+    <% @incorrect_questions.each do |question| %>
+      <div class="question">
+        <p><%= question.content %></p>
+        <!-- Display options, highlight the one selected -->
+      </div>
+    <% end %>
+  </div>
+  <div class="timer">
+    <!-- Timer Interface Here -->
+    <p id="timer">60:00</p>
+    <!-- The same JavaScript for countdown timer as above can be used here -->
+  </div>
+</div>

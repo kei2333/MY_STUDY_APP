@@ -1,0 +1,48 @@
+<div class="study-session">
+  <div class="llm-chat">
+    <!-- LLM Chat Interface Here -->
+    <p>LLM Dialogue...</p>
+    <!-- 实现对话框功能 -->
+  </div>
+  <div class="questions-review">
+    <!-- List of Incorrect Questions Here -->
+    <% @incorrect_questions.each do |question| %>
+      <div class="question">
+        <p><%= question.content %></p>
+        <!-- Display options, highlight the one selected -->
+      </div>
+    <% end %>
+  </div>
+  <div class="timer">
+    <!-- Timer Interface Here -->
+    <p id="timer">60:00</p>
+    <script>
+      // JavaScript for countdown timer
+      var timeLeft = 60 * 60; // 1 hour in seconds
+      var timerElement = document.getElementById('timer');
+
+      var timerId = setInterval(countdown, 1000);
+
+      function countdown() {
+        if (timeLeft == 0) {
+          clearTimeout(timerId);
+          doSomething();
+        } else {
+          var minutes = parseInt(timeLeft / 60, 10);
+          var seconds = parseInt(timeLeft % 60, 10);
+
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          timerElement.textContent = minutes + ":" + seconds;
+          timeLeft--;
+        }
+      }
+
+      function doSomething() {
+        // Redirect to the post-test page
+        window.location.href = "/post_test";
+      }
+    </script>
+  </div>
+</div>

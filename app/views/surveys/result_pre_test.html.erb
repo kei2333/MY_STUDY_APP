@@ -1,0 +1,39 @@
+<h1>测试结果</h1>
+<p>成绩：<%= @score %>/<%= @total_score %></p>
+
+<h2>做题记录</h2>
+<% @answers.each do |answer| %>
+  <div>
+    <p>问题：<%= answer[:question] %></p>
+    <p>你的答案：<%= answer[:selected_option] %></p>
+    <p>正确答案：<%= answer[:correct_option] %></p>
+  </div>
+<% end %>
+
+<h2>分组结果</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Score</th>
+    <th>Total Avg</th>
+    <th>Label</th>
+    <th>Group</th>
+    <th>Link</th>
+  </tr>
+  <% @participants.each do |participant| %>
+    <tr>
+      <td><%= participant.id %></td>
+      <td><%= participant.score %></td>
+      <td><%= participant.total_avg %></td>
+      <td><%= participant.label %></td>
+      <td><%= participant.group %></td>
+      <td>
+        <% if participant.group == 'Experimental' %>
+          <%= link_to 'Go to Experimental Study', study_session_path %>
+        <% else %>
+          <%= link_to 'Go to Control Study', control_study_path %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

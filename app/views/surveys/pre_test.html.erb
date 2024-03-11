@@ -1,0 +1,17 @@
+<h1>问卷调查</h1>
+<%= form_with url: submit_pre_test_path, method: :post do |f| %>
+  <div class="survey-container">
+    <% @questions.each_with_index do |question, q_index| %>
+      <div class="survey-question">
+        <p><%= question.content %></p>
+        <% question.options.split(',').each_with_index do |option, index| %>
+          <div class="survey-option">
+            <%= radio_button_tag "answers[#{question.id}]", index %>
+            <%= option %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <%= f.submit "提交", class: "btn btn-primary" %>
+  </div>
+<% end %>
