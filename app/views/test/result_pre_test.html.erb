@@ -4,9 +4,9 @@
 <h2>做题记录</h2>
 <% @answers.each do |answer| %>
   <div>
-    <p>问题：<%= answer[:question] %></p>
-    <p>你的答案：<%= answer[:selected_option] %></p>
-    <p>正确答案：<%= answer[:correct_option] %></p>
+    <p><%= @questions.find(answer["question_id"]).content %></p>
+    <p>你的答案：<%= @questions.find(answer["question_id"]).options.split(',')[answer["selected_option"].to_i] %></p>
+    <p>正确答案：<%= @questions.find(answer["question_id"]).options.split(',')[answer["correct_option"].to_i] %></p>
   </div>
 <% end %>
 

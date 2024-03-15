@@ -1,4 +1,4 @@
-class SurveysController < ApplicationController
+class TestController < ApplicationController
   def pre_test
     @questions = Question.all
   end
@@ -13,7 +13,7 @@ class SurveysController < ApplicationController
       if question.correct_option == selected_option.to_i
         score += 1
       end
-      answers << { question: question.content, selected_option: selected_option, correct_option: question.correct_option }
+      answers << { question_id: question_id, selected_option: selected_option, correct_option: question.correct_option }
     end
 
     participant = assign_participant(score)
@@ -31,11 +31,13 @@ class SurveysController < ApplicationController
     @total_score = session[:total_score]
     @answers = session[:answers]
     @participants = Participant.all
-  end
+    @questions = Question.all
+ 
 
-  def study_session
-    # 实验组学习界面
+    # 打印 @answers 数组的内容
+    p @answers
   end
+ 
 
   def control_study
     # 对照组学习界面

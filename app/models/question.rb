@@ -1,2 +1,5 @@
 class Question < ApplicationRecord
-end
+    def option(index)
+      options.split(",")[index]
+    end
+  end
