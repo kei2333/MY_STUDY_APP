@@ -1,4 +1,20 @@
+
 class TestController < ApplicationController
+
+  def chat
+    OpenAI.api_key = 'your-api-key'
+
+    response = OpenAI::GPT4.chat(
+      model: "gpt-4.0-turbo",
+      messages: [
+        {role: "system", content: "You are a helpful assistant."},
+        {role: "user", content: params[:message]}
+      ]
+    )
+
+    render json: {message: response['choices'][0]['message']['content']}
+  end
+
   def pre_test
     @questions = Question.all
   end
@@ -41,6 +57,13 @@ class TestController < ApplicationController
 
   def control_study
     # 对照组学习界面
+  end
+
+  def study_session
+  
+    @questions = Question.all
+    @answers = session[:answers]
+  
   end
 
   private

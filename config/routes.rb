@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   post 'submit_pre_test', to: 'test#submit_pre_test'
   get 'result_pre_test', to: 'test#result_pre_test'
   get 'control_study', to: 'test#control_study'
+  post 'test/chat', to: 'test#chat'
 end

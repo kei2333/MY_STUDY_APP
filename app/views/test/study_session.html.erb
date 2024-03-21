@@ -1,48 +1,57 @@
-<div class="study-session">
-  <div class="llm-chat">
+<div class="study-session" style="display: flex; justify-content: space-between;">
+  <div class="llm-chat" style="width: 45%;">
+
+  <div class="chat-title">大聪明AI ！</div>
     <!-- LLM Chat Interface Here -->
-    <p>LLM Dialogue...</p>
-    <!-- 实现对话框功能 -->
+    <div id="chat-messages" class="chat-history" style="height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;">
+      <!-- Chat messages will be appended here -->
+    </div>
+
+    <form id="chat-form" class="typing-box" style="margin-top: 10px;">
+      <input type="text" id="message-input" class="typing-box-input" placeholder="Type your message here..." style="width: 80%;">
+      <button type="submit" class="typing-box-button" style="width: 18%; margin-left: 2%;">Send</button>
+    </form>
+
+    <script>
+      document.getElementById('chat-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var message = document.getElementById('message-input').value;
+
+        // Append user's message to chat
+        var chatMessages = document.getElementById('chat-messages');
+        var userMessageElement = document.createElement('p');
+        userMessageElement.textContent = 'User: ' + message;
+        chatMessages.appendChild(userMessageElement);
+
+        fetch('/test/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify({message: message})
+        })
+        .then(response => response.json())
+        .then(data => {
+          var assistantMessageElement = document.createElement('p');
+          assistantMessageElement.textContent = 'Assistant: ' + data.message;
+          chatMessages.appendChild(assistantMessageElement);
+        });
+
+        document.getElementById('message-input').value = '';
+      });
+    </script>
   </div>
-  <div class="questions-review">
-    <!-- List of Incorrect Questions Here -->
-    <% @incorrect_questions.each do |question| %>
+  
+  <div class="questions-review" style="width: 45%;">
+    <!-- List of All Questions Here -->
+    <% @answers.each do |answer| %>
       <div class="question">
-        <p><%= question.content %></p>
-        <!-- Display options, highlight the one selected -->
+        <p>问题：<%= @questions.find(answer["question_id"]).content %></p>
+        <p>你的答案：<%= @questions.find(answer["question_id"]).options.split(',')[answer["selected_option"].to_i] %></p>
+        <p>正确答案：<%= @questions.find(answer["question_id"]).options.split(',')[answer["correct_option"].to_i] %></p>
       </div>
     <% end %>
-  </div>
-  <div class="timer">
-    <!-- Timer Interface Here -->
-    <p id="timer">60:00</p>
-    <script>
-      // JavaScript for countdown timer
-      var timeLeft = 60 * 60; // 1 hour in seconds
-      var timerElement = document.getElementById('timer');
-
-      var timerId = setInterval(countdown, 1000);
-
-      function countdown() {
-        if (timeLeft == 0) {
-          clearTimeout(timerId);
-          doSomething();
-        } else {
-          var minutes = parseInt(timeLeft / 60, 10);
-          var seconds = parseInt(timeLeft % 60, 10);
-
-          minutes = minutes < 10 ? "0" + minutes : minutes;
-          seconds = seconds < 10 ? "0" + seconds : seconds;
-
-          timerElement.textContent = minutes + ":" + seconds;
-          timeLeft--;
-        }
-      }
-
-      function doSomething() {
-        // Redirect to the post-test page
-        window.location.href = "/post_test";
-      }
-    </script>
   </div>
 </div>
